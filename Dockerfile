@@ -212,6 +212,17 @@ RUN echo " ... installing cjose ... " \
     && make && make install \
     && rm -rf /tmp/api-gateway
 
+RUN echo " ... installing Signal Sciences ... " \
+    && mkdir -p /opt/sigsci \
+    && cd /opt/sigsci \
+    && wget https://dl.signalsciences.net/sigsci-agent/sigsci-agent_latest.tar.gz \
+    && tar -xzf sigsci-agent_latest.tar.gz \
+    && wget https://dl.signalsciences.net/sigsci-module-nginx/sigsci-module-nginx_latest.tar.gz \
+    && tar -xzf sigsci-module-nginx_latest.tar.gz \
+    && mv sigsci-module-nginx nginx \
+    && rm /opt/sigsci/*.gz
+
+#####
 COPY init.sh /etc/init-container.sh
 # add the default configuration for the Gateway
 COPY . /etc/api-gateway

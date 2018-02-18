@@ -46,6 +46,8 @@ docker-run:
 		-e TOKEN_GITHUB_URL=https://api.github.com/user \
 		-e APPID_PKURL=https://appid-oauth.ng.bluemix.net/oauth/v3/ \
 		-e LD_LIBRARY_PATH=/usr/local/lib \
+		-e SIGSCI_ACCESSKEYID=${SIGSCI_ACCESSKEYID} \
+		-e SIGSCI_SECRETACCESSKEY=${SIGSCI_SECRETACCESSKEY} \
 		openwhisk/apigateway:latest
 
 .PHONY: docker-debug
