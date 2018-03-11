@@ -62,7 +62,7 @@ RUN  echo " ... adding Openresty, NGINX, and PCRE" \
      && echo "using up to $NPROC threads" \
 
      && cd /tmp/api-gateway/ \
-     && curl -k -L http://downloads.sourceforge.net/project/pcre/pcre/${PCRE_VERSION}/pcre-${PCRE_VERSION}.tar.gz -o /tmp/api-gateway/pcre-${PCRE_VERSION}.tar.gz \
+     && curl -k -L https://ftp.pcre.org/pub/pcre/pcre-${PCRE_VERSION}.tar.gz -o /tmp/api-gateway/pcre-${PCRE_VERSION}.tar.gz \
      && curl -k -L https://openresty.org/download/openresty-${OPENRESTY_VERSION}.tar.gz -o /tmp/api-gateway/openresty-${OPENRESTY_VERSION}.tar.gz \
      && tar -zxf ./openresty-${OPENRESTY_VERSION}.tar.gz \
      && tar -zxf ./pcre-${PCRE_VERSION}.tar.gz \

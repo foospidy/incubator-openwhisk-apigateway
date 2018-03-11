@@ -87,6 +87,17 @@ function _M.processCall(dataStore)
       end
       -- Set backend upstream and uri
       backendRouting.setRoute(opFields.backendUrl, gatewayPath)
+      -- Set gateway url as request header
+      local requestScheme = ngx.req.get_headers()["X-Forwarded-Proto"]
+      if requestScheme == nil or requestScheme == "" then
+        requestScheme = ngx.var.scheme
+      end
+      local requestUrl = utils.concatStrings({requestScheme, "://", ngx.var.host})
+      local prefix = ngx.req.get_headers()["X-Forwarded-Prefix"]
+      if prefix ~= nil and prefix ~= "" then
+        requestUrl = utils.concatStrings({requestUrl, prefix})
+      end
+      ngx.req.set_header("X-Forwarded-Url", utils.concatStrings({requestUrl, ngx.var.request_uri}))
       -- Parse policies
       if opFields.policies ~= nil then
         parsePolicies(dataStore, opFields.policies, key)
@@ -200,7 +211,7 @@ end
 -- @param resourceKey redis resourceKey to check if it matches path parameter
 function _M.pathParamMatch(key, resourceKey)
   local pathParamVars = {}
-  for w in string.gfind(key, "({%w+})") do
+  for w in string.gmatch(key, "({%w+})") do
     w = string.sub(w, 2, string.len(w) - 1)
     pathParamVars[#pathParamVars + 1] = w
   end
